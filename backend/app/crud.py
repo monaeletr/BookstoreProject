@@ -67,10 +67,17 @@ def buy_book(isbn, amt_sold):
         return {"error": f"Not enough stock. Current: {current_stock}, Requested: {amt_sold}"}
     
     
+def check_inventory(isbn):
+    result = supabase.table("inventory").select("quantity_in_stock").eq("isbn", isbn).single().execute()
+    current_stock = result.data["quantity_in_stock"]
+    return {f"Current stock of isbn {isbn} is {current_stock}"}
+
 
 # updated = increase_stock("0001047973", 10)
 # print(updated) 
 
-print(buy_book("0001360469", 3))   
-print(buy_book("0001372564", 100)) 
+# print(buy_book("0001360469", 3))   
+# print(buy_book("0001372564", 100)) 
+
+print(check_inventory("0001360469"))
 
